@@ -1,0 +1,107 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "langworld"
+version = "0.1.0"
+description = "A LangChain and LangGraph project"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Jeff", email = "jeff@example.com"}
+]
+keywords = ["langchain", "langgraph", "ai", "llm"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "langchain-core>=1.2.7",
+    "langchain-text-splitters>=1.1.0",
+    "langchain[ollama]>=0.1.0",
+    "langgraph>=0.0.1",
+    "pydantic>=2.12.5",
+    "python-dotenv>=1.2.1",
+    "langfuse>=2.0.0,<3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+
+[tool.uv]
+# Configuração para usar uv com este projeto
+
+[tool.hatch.build.targets.wheel]
+packages = ["lang_chain", "lang_graph"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+
+[tool.ruff]
+line-length = 90
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "T201",      # print encontrado
+    "COM812",    # Trailing comma
+    "INP001",    # Implicit namespace package
+    "D",         # Docstring
+    "ANN401",    # Dynamically typed expressions
+    "ERA001",    # Commented-out code
+    "S307",    # Use of insecure MD5 hash function
+    "I001",    # Import statements are in the wrong order
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ANN201", "S101"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+[tool.ruff.lint.isort]
+known-first-party = ["lang_chain", "lang_graph"]
+
+[tool.pyright]
+include = ["lang_chain", "lang_graph", "tests"]
+exclude = [
+    "**/__pycache__",
+    "**/.venv",
+    "**/venv",
+    "**/env",
+]
+typeCheckingMode = "standard"
+pythonVersion = "3.13"
+reportMissingImports = true
+reportOptionalMemberAccess = true
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.408",
+    "ruff>=0.14.11",
+]
